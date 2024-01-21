@@ -1,0 +1,6 @@
+python /root/autodl-tmp/hnu-nlp/run.py --config /root/autodl-tmp/hnu-nlp/mid/configs/stage2/large_stage2.yml
+python /root/autodl-tmp/hnu-nlp/run.py --config /root/autodl-tmp/hnu-nlp/mid/configs/stage2/large_stage2.yml --overwrite model.config.auto_net.auto_net_path=/root/autodl-tmp/save/hnu-nlp/mid/mlm/pretrained_bart_large/best/
+python /root/autodl-tmp/hnu-nlp/run.py --config /root/autodl-tmp/hnu-nlp/mid/configs/stage2/mlm_stage2.yml
+python /root/autodl-tmp/hnu-nlp/run.py --config /root/autodl-tmp/hnu-nlp/mid/configs/stage2/pretrain_stage2.yml
+python /root/autodl-tmp/hnu-nlp/run.py --config /root/autodl-tmp/hnu-nlp/mid/configs/stage2/large_stage2.yml --overwrite model.config.auto_net.auto_net_path=/root/autodl-tmp/save/hnu-nlp/mid/mlm//stage2/pretrained_bart_large/best/
+python /root/autodl-tmp/hnu-nlp/run.py --config /root/autodl-tmp/hnu-nlp/mid/configs/stage2/large_stage2.yml --overwrite model.config.auto_net.auto_net_path=/root/autodl-tmp/save/hnu-nlp/mid/pretrain/stage2/pad_large/pretrained_bart/best/

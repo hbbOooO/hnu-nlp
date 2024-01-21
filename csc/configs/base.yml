@@ -1,0 +1,96 @@
+processors:
+- id: IdProcessor
+  class_name: IdProcessor
+  module_path: common.processors.base_processor
+  config:
+- id: CscProcessor
+  class_name: CscProcessorWOPad
+  module_path: csc.processors.csc_processor
+  config:
+    path: /root/autodl-tmp/csc/my_model/macbert4csc-base-chinese
+    label_pad_id: -100
+    pad_id: 0
+
+dataset:
+  class_name: CscDataset
+  module_path: csc.datasets.csc_dataset
+  datasets:
+  - dataset_type: train
+    data_root_dir: /root/autodl-tmp/data/csc/
+    data_file_path: 
+    - train.txt
+    processor_ids:
+    - IdProcessor
+    - CscProcessor
+    # random_noise: true
+  - dataset_type: val
+    data_root_dir: /root/autodl-tmp/data/csc/
+    data_file_path: 
+    - dev.txt
+    processor_ids:
+    - IdProcessor
+    - CscProcessor
+  - dataset_type: inference
+    data_root_dir: /root/autodl-tmp/data/csc/
+    data_file_path: 
+    - dev.txt
+    processor_ids:
+    - IdProcessor
+    - CscProcessor
+    
+model:
+  class_name: CscModel
+  module_path: csc.models.csc_model
+  config:
+    auto_net:
+      auto_net_path: /root/autodl-tmp/csc/my_model/macbert4csc-base-chinese
+      auto_net_config: {}
+run_param:
+  run_type: train
+  log_dir: /root/autodl-tmp/save/hnu-nlp/csc/base/logs/
+  log_level: info
+  timer_type: all
+  cuda_idx: -1
+  collate_fn: csc_collate
+  # resume_file: /root/autodl-tmp/save/hnu-nlp/mid/base/model/epoch_14.ckpt
+  meter:
+    module_path: csc.utils.csc_meter
+    class_name: CscMeter
+  train_param:
+    max_epoch: 20
+    batch_size: 16
+    log_interval: 10
+    val_on_val_set: true     # 验证集上测试
+    val_on_train_set: true   # 训练集上测试
+    optimizer:
+      optimizer_name: adamw  # 原来使用的是adamw优化器，并且还有权重衰减。并且一部分有衰减，另一部分没有衰减，这个功能没有实现
+      optimizer_config:
+        weight_decay: 0.001
+      use_warmup: true
+      warmup_iter: 50
+      lr: 0.00005
+      # lr_strategy: linear
+      # start_epoch: 1
+      # end_epoch: 20
+      # min_lr: 0.00001
+      lr_strategy: step
+      lr_step:
+      - 100000
+    loss:
+      loss_name: CscLoss
+      loss_weight: 0.3
+      focal_loss:
+        config:
+          num_labels: None
+          activation_type: sigmoid
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/csc/base/model/
+      save_by_epoch: false
+      save_interval: 1
+      save_best: true
+      save_last: false
+  val_param:
+    batch_size: 16
+  inference_param:
+    batch_size: 32
+    out_path: /root/autodl-tmp/save/hnu-nlp/csc/base/out/prediction.txt

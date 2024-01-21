@@ -1,0 +1,15 @@
+load_yml_path: mid/configs/stage2/large_add.yml
+
+
+model:
+  config:
+    auto_net:
+      auto_net_path: /root/autodl-tmp/save/hnu-nlp/mid/mlm/stage2/pretrained_bart_large/best
+
+# run_param:
+#   resume_file: /root/autodl-tmp/save/hnu-nlp/mid/base_large/stage2/add/model/epoch_best_21834.ckpt
+#   train_param:
+#     optimizer:
+#       lr_strategy: step
+#       lr_step:
+#       - 18

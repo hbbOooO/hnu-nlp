@@ -1,0 +1,11 @@
+load_yml_path: mid/configs/base.yml
+
+model:
+  model:
+    auto_net:
+      auto_net_path: /root/autodl-tmp/save/hnu-nlp/mid/pretrain/pad/pretrained_bart/best/
+run_param:
+  log_dir: /root/autodl-tmp/save/hnu-nlp/mid/base/finetune/logs/
+  train_param:
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/mid/base/finetune/model/

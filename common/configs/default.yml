@@ -1,0 +1,34 @@
+
+run_param:
+  run_type: train
+  log_dir: ./save/default/logs/
+  log_level: info
+  timer_type: all
+  cuda_idx: 0
+  dataloader:
+  - dataloader_type: train
+    config:
+      batch_size: 2
+      shuffle: true
+  train_param:
+    max_epoch: 20
+    log_interval: 100
+    val_on_val_set: true     # 验证集上测试
+    val_on_train_set: true   # 训练集上测试
+    optimizer:
+      optimizer_name: adamw  # 原来使用的是adamw优化器，并且还有权重衰减。并且一部分有衰减，另一部分没有衰减，这个功能没有实现
+      optimizer_config:
+        weight_decay: 0.001
+      use_warmup: true
+      warmup_iter: 500
+      lr: 0.00001
+    checkpoint:
+      ckpt_dir: ./save/default/model/
+      save_by_epoch: false
+      save_interval: 1
+      save_best: true
+      save_last: false
+    
+  val_param: {}
+  inference_param:
+    out_path: ./save/default/out/prediction.csv

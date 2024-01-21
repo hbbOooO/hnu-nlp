@@ -1,0 +1,124 @@
+processors:
+  IdProcessor:
+    class_name: IdProcessor
+    module_path: common.processors.base_processor
+    config:
+  TextProcessor:
+    class_name: TextProcessor
+    module_path: ccac.processors.ccac_processor
+    config:
+      path: /root/autodl-tmp/model/ccac/track2/mengzi
+      input_max_length: 32
+      output_max_length: 256
+      add_angle: false
+
+dataset:
+  class_name: CcacDataset
+  module_path: ccac.datasets.ccac_dataset
+  datasets:
+    train:
+      dataset_type: train
+      data_root_dir: /root/autodl-tmp/data/ccac/track2/train/
+      data_file_path: 
+      - claims.txt
+      processor_ids:
+      - IdProcessor
+      - TextProcessor
+      use_argument_cls: false
+    val:
+      dataset_type: val
+      data_root_dir: /root/autodl-tmp/data/ccac/track2/test/
+      data_file_path: 
+      - claims.txt
+      processor_ids:
+      - IdProcessor
+      - TextProcessor
+      use_argument_cls: false
+  # - dataset_type: inference
+  #   data_root_dir: /root/autodl-tmp/data/imdb
+  #   data_file_path: 
+  #   - test.json
+  #   processor_ids:
+  #   - IdProcessor
+    
+model:
+  class_name: T5Model
+  module_path: ccac.models.t5_model
+  config:
+    auto_net:
+      auto_net_path: /root/autodl-tmp/model/ccac/track2/mengzi
+      auto_net_config: {}
+    max_length: 64
+    num_beams: 4
+    # synced_gpus: false
+    repetition_penalty: 2.0
+    add_prompt: false
+run_param:
+  run_type: train
+  log_dir: /root/autodl-tmp/save/hnu-nlp/ccac/track2/base/logs/
+  log_level: info
+  timer_type: all
+  cuda_idx: 0
+  seed: 42
+  dataloader:
+    train:
+      batch_size: 16
+      shuffle: true
+    val:
+      batch_size: 1
+      shuffle: true
+  # - dataloader_type: train
+  #   config:
+  #     batch_size: 16
+  #     shuffle: true
+  # - dataloader_type: val
+  #   config:
+  #     batch_size: 1
+  #     shuffle: true
+      # collate_fn:
+      #   module_path: common.collate
+      #   fn_name: mid_collate
+  meter:
+    module_path: ccac.utils.ccac_meter
+    class_name: Track2Meter
+  train_param:
+    max_epoch: 1
+    log_interval: 20
+    val_on_val_set: true     # 验证集上测试
+    val_on_train_set: false   # 训练集上测试
+    # ema:
+    #   config: {}
+    # fgm:
+    #   config:
+    #     embed_name: shared
+    #     epsilon: 0.125
+    optimizer:
+      optimizer_name: adamw  # 原来使用的是adamw优化器，并且还有权重衰减。并且一部分有衰减，另一部分没有衰减，这个功能没有实现
+      optimizer_config:
+        weight_decay: 0.001
+      use_warmup: true
+      warmup_iter: 100
+      lr: 0.0001
+      # gradient_accumulation_steps: 1
+      # lr_strategy: linear
+      # start_epoch: 1
+      # end_epoch: 20
+      # min_lr: 0
+      # lr_strategy: step
+      # lr_step:
+      # - 100000
+    loss:
+      class_name: OutLoss
+      # class_name: LabelSmootherLoss
+      module_path: common.losses
+      config:
+        label_smoothing_factor: 0.1
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/ccac/track2/base/model/
+      save_by_epoch: false
+      save_interval: 1
+      save_best: false
+      save_last: false
+  val_param: {}
+  inference_param:
+    out_path: /root/autodl-tmp/save/hnu-nlp/mid/base_large/stage2/add/out/prediction.csv

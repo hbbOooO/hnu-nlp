@@ -1,0 +1,95 @@
+processors:
+- id: IdProcessor
+  class_name: IdProcessor
+  module_path: common.processors.base_processor
+  config:
+- id: MLMProcessor
+  class_name: MLMProcessorWOPad
+  module_path: mid.processors.pretrain_processor
+  config:
+    path: /root/autodl-tmp/data/mid/pretrained_bert/vocab.txt
+    max_length: 150
+    label_pad_id: -100
+    pad_id: 0
+
+dataset:
+  class_name: MLMDataset
+  module_path: mid.datasets.pretrain_dataset
+  datasets:
+  - dataset_type: train
+    data_root_dir: /root/autodl-tmp/data/mid/
+    data_file_path: 
+    - clip_train.json
+    processor_ids:
+    - IdProcessor
+    - MLMProcessor
+  - dataset_type: val
+    data_root_dir: /root/autodl-tmp/data/mid/
+    data_file_path: 
+    - clip_val.json
+    processor_ids:
+    - IdProcessor
+    - MLMProcessor
+    
+model:
+  class_name: MLMModel
+  module_path: mid.models.pretrain_model
+  config:
+    auto_net:
+      auto_net_path: fnlp/bart-large-chinese
+      auto_net_config: {}
+    vocab_size: 1415
+    max_length: 80
+    num_beams: 3
+    synced_gpus: false
+run_param:
+  run_type: train
+  log_dir: /root/autodl-tmp/save/hnu-nlp/mid/mlm/logs/
+  log_level: info
+  timer_type: all
+  cuda_idx: 0
+  collate_fn: mid_collate
+  # resume_file: /root/autodl-tmp/save/hnu-nlp/mid/mlm/model/epoch_best_9069.ckpt
+  meter:
+    module_path: common.meters
+    class_name: RougeMeter
+  train_param:
+    max_epoch: 50
+    batch_size: 6
+    log_interval: 100
+    val_on_val_set: true     # 验证集上测试
+    val_on_train_set: false   # 训练集上测试
+    optimizer:
+      optimizer_name: adamw  # 原来使用的是adamw优化器，并且还有权重衰减。并且一部分有衰减，另一部分没有衰减，这个功能没有实现
+      optimizer_config:
+        weight_decay: 0.001
+      use_warmup: true
+      warmup_iter: 500
+      lr: 0.00001
+      # lr_strategy: linear
+      # start_epoch: 1
+      # end_epoch: 20
+      # min_lr: 0.00001
+      # lr_strategy: step
+      # lr_step:
+      # - 100000
+    loss:
+      class_name: OutLoss
+      module_path: common.losses
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/mid/mlm/model/
+      save_by_epoch: false
+      save_interval: 1
+      save_best: true
+      save_last: true
+    save_module:
+      module_dir: /root/autodl-tmp/save/hnu-nlp/mid/mlm/pretrained_bart_large/
+      save_by_epoch: false
+      save_interval: 1
+      save_best: true
+      save_last: true
+  val_param:
+    batch_size: 4
+  inference_param:
+    batch_size: 1
+    out_path: /root/autodl-tmp/save/hnu-nlp/mid/pretrain/out/prediction.jsonl

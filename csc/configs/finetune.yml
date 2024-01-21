@@ -1,0 +1,9 @@
+load_yml_path: csc/configs/base.yml
+
+run_param:
+  log_dir: /root/autodl-tmp/save/hnu-nlp/csc/finetune/logs/
+  resume_file: /root/autodl-tmp/save/hnu-nlp/csc/pretrain/model/epoch_best.ckpt
+  resume_from_start: true
+  train_param:
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/csc/finetune/model/

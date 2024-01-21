@@ -1,0 +1,96 @@
+processors:
+- id: IdProcessor
+  class_name: IdProcessor
+  module_path: common.processors.base_processor
+  config:
+- id: MidProcessor
+  class_name: MidProcessor
+  module_path: mid.processors.mid_processor
+  config:
+    path: /root/autodl-tmp/data/mid/pretrained_bert/vocab.txt
+    max_input_length: 150
+    max_target_length: 80
+
+dataset:
+  class_name: MidDataset
+  module_path: mid.datasets.mid_dataset
+  datasets:
+  - dataset_type: train
+    data_root_dir: /root/autodl-tmp/data/mid/
+    data_file_path: 
+    - clip_train.json
+    processor_ids:
+    - IdProcessor
+    - MidProcessor
+  - dataset_type: val
+    data_root_dir: /root/autodl-tmp/data/mid/
+    data_file_path: 
+    - clip_val.json
+    processor_ids:
+    - IdProcessor
+    - MidProcessor
+  # - dataset_type: inference
+  #   data_root_dir: /root/autodl-tmp/data/imdb
+  #   data_file_path: 
+  #   - test.json
+  #   processor_ids:
+  #   - IdProcessor
+    
+model:
+  class_name: MidModel
+  module_path: mid.models.mid_model
+  model:
+    auto_net:
+      auto_net_path: /root/autodl-tmp/save/hnu-nlp/mid/pretrain/pretrained_bart
+      auto_net_config: {}
+    vocab_size: 1415
+    max_length: 80
+    num_beams: 5
+    synced_gpus: false
+    # drop_out: 0.5
+    # cls_num: 2
+run_param:
+  run_type: train
+  log_dir: /root/autodl-tmp/save/hnu-nlp/mid/base/based_pretrain/logs/
+  log_level: info
+  timer_type: all
+  cuda_idx: 0
+  # collate_fn: mid_collate
+  # resume_file: /root/autodl-tmp/save/hnu-nlp/mid/base/model/epoch_14.ckpt
+  meter:
+    module_path: common.meters
+    class_name: MidMeter
+  train_param:
+    max_epoch: 50
+    batch_size: 32
+    log_interval: 100
+    val_on_val_set: true     # 验证集上测试
+    val_on_train_set: false   # 训练集上测试
+    optimizer:
+      optimizer_name: adamw  # 原来使用的是adamw优化器，并且还有权重衰减。并且一部分有衰减，另一部分没有衰减，这个功能没有实现
+      optimizer_config:
+        weight_decay: 0.001
+      use_warmup: true
+      warmup_iter: 500
+      lr: 0.0001
+      # lr_strategy: linear
+      # start_epoch: 1
+      # end_epoch: 20
+      # min_lr: 0
+      lr_strategy: step
+      lr_step:
+      - 10000000
+    loss:
+      loss_name: LabelSmootherLoss
+      label_smoothing_factor: 0.1
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/mid/base/based_pretrain/model/
+      save_by_epoch: false
+      save_interval: 1
+      save_best: true
+      save_last: false
+  val_param:
+    batch_size: 32
+  inference_param:
+    batch_size: 32
+    out_path: /root/autodl-tmp/save/hnu-nlp/mid/base/based_pretrain/out/prediction.jsonl

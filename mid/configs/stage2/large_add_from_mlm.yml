@@ -1,0 +1,21 @@
+load_yml_path: mid/configs/stage2/large_add.yml
+
+
+model:
+  config:
+    auto_net:
+      auto_net_path: /root/autodl-tmp/pretrain_bart
+
+run_param:
+  resume_file: /root/autodl-tmp/save/hnu-nlp/mid/base_large/stage2/add/model/epoch_best_21813.ckpt
+  # train_param:
+  #   optimizer:
+  #     lr: 0.00004
+  #     gradient_accumulation_steps: 4
+  #     lr_strategy: linear
+  #     start_epoch: 1
+  #     end_epoch: 20
+  #     min_lr: 0.00001
+#       lr_strategy: step
+#       lr_step:
+#       - 18

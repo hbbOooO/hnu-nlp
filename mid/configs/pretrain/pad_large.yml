@@ -1,0 +1,21 @@
+load_yml_path: mid/configs/pretrain_pad.yml
+
+model:
+  model:
+    auto_net:
+      auto_net_path: fnlp/bart-large-chinese
+run_param:
+  log_dir: /root/autodl-tmp/save/hnu-nlp/mid/pretrain/pad_large/logs/
+  
+  train_param:
+    max_epoch: 20
+    batch_size: 8
+    log_interval: 1000
+    optimizer:
+      end_epoch: 10
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/mid/pretrain/pad_large/model/
+    save_module:
+      module_dir: /root/autodl-tmp/save/hnu-nlp/mid/pretrain/pad_large/pretrained_bart_large/
+  val_param:
+    batch_size: 8

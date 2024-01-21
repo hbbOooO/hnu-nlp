@@ -1,0 +1,4 @@
+load_yml_path: csc/configs/base.yml
+
+run_param:
+  run_type: inference

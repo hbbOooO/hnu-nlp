@@ -1,0 +1,93 @@
+processors:
+- id: IdProcessor
+  class_name: IdProcessor
+  module_path: common.processors.base_processor
+  config:
+- id: LabelProcessor
+  class_name: LabelProcessor
+  module_path: common.processors.base_processor
+  config:
+- id: SingleTokenizer
+  class_name: SingleTokenizer
+  module_path: common.processors.text_processor
+  config:
+    path: roberta-base
+    max_length: 512
+    sentence_num: 1
+
+dataset:
+  class_name: FraudDataset
+  module_path: fraud.datasets.fraud_dataset
+  datasets:
+  - dataset_type: train
+    data_root_dir: /root/autodl-tmp/data/fraud/
+    data_file_path: 
+    - train.json
+    processor_ids:
+    - IdProcessor
+    - LabelProcessor
+    - SingleTokenizer
+  - dataset_type: val
+    data_root_dir: /root/autodl-tmp/data/fraud/
+    data_file_path: 
+    - train.json
+    processor_ids:
+    - IdProcessor
+    - SingleTokenizer
+  - dataset_type: inference
+    data_root_dir: /root/autodl-tmp/data/imdb/
+    data_file_path: 
+    - test.json
+    processor_ids:
+    - IdProcessor
+    
+model:
+  class_name: FraudModel
+  module_path: fraud.models.fraud_model
+  config:
+    auto_net:
+      auto_net_path: roberta-base
+      auto_net_config: {}
+    drop_out: 0.5
+    cls_num: 12
+run_param:
+  run_type: train
+  log_dir: /root/autodl-tmp/save/hnu-nlp/fraud/base
+  log_level: info
+  timer_type: all
+  cuda_idx: 0
+  meter:
+    module_path: common.meters
+    class_name: MacroF1Meter
+  train_param:
+    max_epoch: 10
+    batch_size: 8
+    log_interval: 100
+    val_on_val_set: true
+    val_on_train_set: true
+    optimizer:
+      optimizer_name: adam
+      use_warmup: true
+      warmup_iter: 500
+      lr: 0.00005
+      lr_strategy: linear
+      start_epoch: 2
+      end_epoch: 5
+      min_lr: 0.00001
+      # lr_step:
+      # - 10000
+      # - 9
+    loss:
+      class_name: CrossEntropyLoss
+      module_path: common.losses
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/fraud/base/model/
+      save_by_epoch: true
+      save_interval: 5
+      save_best: true
+      save_last: true
+  val_param:
+    batch_size: 1
+  inference_param:
+    batch_size: 1
+    out_path: /root/autodl-tmp/save/hnu-nlp/fraud/base/out/prediction.jsonl

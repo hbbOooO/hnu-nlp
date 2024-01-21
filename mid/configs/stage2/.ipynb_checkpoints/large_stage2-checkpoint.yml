@@ -1,0 +1,108 @@
+processors:
+- id: IdProcessor
+  class_name: IdProcessor
+  module_path: common.processors.base_processor
+  config:
+- id: MidProcessor
+  class_name: MidProcessor
+  module_path: mid.processors.mid_processor
+  config:
+    path: /root/autodl-tmp/data/mid/pretrained_bert/vocab.txt
+    max_input_length: 150
+    max_target_length: 80
+
+dataset:
+  class_name: MidStage2Dataset
+  module_path: mid.datasets.mid_dataset
+  datasets:
+  - dataset_type: train
+    data_root_dir: /root/autodl-tmp/data/mid/stage2/
+    data_file_path: 
+    - clip_train.csv
+    - stage1_train.csv
+    # - clip_val.csv
+    processor_ids:
+    - IdProcessor
+    - MidProcessor
+  - dataset_type: val
+    data_root_dir: /root/autodl-tmp/data/mid/stage2/
+    data_file_path: 
+    - clip_val.csv
+    processor_ids:
+    - IdProcessor
+    - MidProcessor
+  # - dataset_type: inference
+  #   data_root_dir: /root/autodl-tmp/data/imdb
+  #   data_file_path: 
+  #   - test.json
+  #   processor_ids:
+  #   - IdProcessor
+    
+model:
+  class_name: MidModel
+  module_path: mid.models.mid_model
+  config:
+    auto_net:
+      auto_net_path: fnlp/bart-large-chinese
+      # auto_net_path: /root/autodl-tmp/save/hnu-nlp/mid/mlm/pretrained_bart_large/best/
+      # auto_net_path: /root/autodl-tmp/yxx/data/pretrain_model/checkpoint-70000
+      auto_net_config: {}
+    vocab_size: 1415
+    max_length: 80
+    num_beams: 5
+    synced_gpus: false
+    # drop_out: 0.5
+    # cls_num: 2
+run_param:
+  run_type: train
+  log_dir: /root/autodl-tmp/save/hnu-nlp/mid/base_large/stage2/logs/
+  log_level: info
+  timer_type: all
+  cuda_idx: 0
+  # collate_fn: mid_collate
+  # resume_file: /root/autodl-tmp/save/hnu-nlp/mid/base/model/epoch_14.ckpt
+  dataloader:
+  - dataloader_type: train
+    config:
+      batch_size: 8
+      shuffle: true
+      # collate_fn:
+      #   module_path: common.collate
+      #   fn_name: mid_collate
+  meter:
+    module_path: mid.utils.mid_meter
+    class_name: Stage2Meter
+  train_param:
+    max_epoch: 20
+    log_interval: 1000
+    val_on_val_set: true     # 验证集上测试
+    val_on_train_set: false   # 训练集上测试
+    optimizer:
+      optimizer_name: adamw  # 原来使用的是adamw优化器，并且还有权重衰减。并且一部分有衰减，另一部分没有衰减，这个功能没有实现
+      optimizer_config:
+        weight_decay: 0.001
+      use_warmup: true
+      warmup_iter: 500
+      lr: 0.00001
+      gradient_accumulation_steps: 4
+      lr_strategy: linear
+      start_epoch: 1
+      end_epoch: 20
+      min_lr: 0
+      # lr_strategy: step
+      # lr_step:
+      # - 100000
+    loss:
+      class_name: LabelSmootherLoss
+      module_path: common.losses
+      config:
+        label_smoothing_factor: 0.1
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/mid/base_large/stage2/model/
+      save_by_epoch: false
+      save_interval: 1
+      save_best: false
+      save_last: false
+  val_param: {}
+  inference_param:
+    out_path: /root/autodl-tmp/save/hnu-nlp/mid/base_large/stage2/out/prediction.csv

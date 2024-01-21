@@ -1,0 +1,12 @@
+load_yml_path: mid/configs/stage2/large_add.yml
+
+
+model:
+  config:
+    auto_net:
+      auto_net_path: /root/autodl-tmp/pretrain_bart
+    num_beams: 4
+
+run_param:
+  run_type: val
+  resume_file: /root/autodl-tmp/save/hnu-nlp/mid/base_large/stage2/add/model/epoch_best_219425.ckpt

@@ -1,0 +1,4 @@
+load_yml_path: mid/configs/mlm.yml
+
+model:
+  class_name: PretrainModel

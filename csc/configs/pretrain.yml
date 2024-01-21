@@ -1,0 +1,16 @@
+load_yml_path: csc/configs/base.yml
+
+dataset:
+  datasets:
+  - dataset_type: train
+    random_noise: true
+    data_file_path: 
+    - cged+lang8.txt
+
+run_param:
+  log_dir: /root/autodl-tmp/save/hnu-nlp/csc/pretrain/logs/
+  
+  train_param:
+    log_interval: 5000
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/save/hnu-nlp/csc/pretrain/model/

@@ -1,0 +1,98 @@
+processors:
+  IdProcessor:
+    class_name: IdProcessor
+    module_path: common.processors.base_processor
+    config:
+  LabelProcessor:
+    class_name: LabelProcessor
+    module_path: common.processors.base_processor
+    config:
+  SingleTokenizer:
+    class_name: SingleTokenizer
+    module_path: common.processors.text_processor
+    config:
+      path: roberta-base
+      max_length: 512
+      sentence_num: 1
+
+dataset:
+  class_name: IMDBDataset
+  module_path: sentiment_classification.datasets.imdb_dataset
+  datasets:
+    train:
+      dataset_type: train
+      data_root_dir: /root/autodl-tmp/data/imdb/
+      data_file_path: 
+      - train.json
+      processor_ids:
+      - IdProcessor
+      - LabelProcessor
+      - SingleTokenizer
+    val:
+      dataset_type: val
+      data_root_dir: /root/autodl-tmp/data/imdb
+      data_file_path: 
+      - test.json
+      processor_ids:
+      - IdProcessor
+      - SingleTokenizer
+    inference:
+      dataset_type: inference
+      data_root_dir: /root/autodl-tmp/data/imdb
+      data_file_path: 
+      - test.json
+      processor_ids:
+      - IdProcessor
+    
+model:
+  class_name: ClassificationModel
+  module_path: common.models.classification_model
+  model:
+    auto_net:
+      auto_net_path: roberta-base
+      auto_net_config: 
+        num_labels: 2
+run_param:
+  run_type: train
+  log_dir: /root/autodl-tmp/save/hnu-nlp/sentiment_classification/imdb/base
+  log_level: info
+  timer_type: all
+  cuda_idx: 0
+  dataloader:
+    train:
+      batch_size: 16
+      shuffle: true
+  meter:
+    module_path: common.meters
+    class_name: AccMeter
+  train_param:
+    max_epoch: 10
+    batch_size: 8
+    log_interval: 100
+    val_on_val_set: true
+    val_on_train_set: true
+    optimizer:
+      optimizer_name: adam
+      optimizer_config:
+        weight_decay: 0.001
+      use_warmup: true
+      warmup_iter: 500
+      lr: 0.00005
+      lr_strategy: linear
+      start_epoch: 2
+      end_epoch: 5
+      min_lr: 0.00001
+      # lr_step:
+      # - 10000
+      # - 9
+    loss:
+      loss_name: CrossEntropyLoss
+    checkpoint:
+      ckpt_dir: /root/autodl-tmp/savehnu-nlp/sentiment_classification/imdb/base/model/
+      save_by_epoch: true
+      save_interval: 5
+      save_best: true
+      save_last: true
+  val_param: {}
+  inference_param:
+    out_path: /root/autodl-tmp/savehnu-nlp/sentiment_classification/imdb/base/out/prediction.jsonl

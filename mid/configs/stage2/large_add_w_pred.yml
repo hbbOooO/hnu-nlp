@@ -1,0 +1,38 @@
+load_yml_path: mid/configs/stage2/large_add.yml
+
+dataset:
+  class_name: MidStage2Dataset
+  module_path: mid.datasets.mid_dataset
+  datasets:
+  - dataset_type: train
+    data_root_dir: /root/autodl-tmp/data/mid/stage2/
+    data_file_path: 
+    - clip_train.csv
+    - stage1_train.csv
+    - test_a_pred_label.csv
+    - test_b_pred_label.csv
+    processor_ids:
+    - IdProcessor
+    - MidProcessor
+  - dataset_type: val
+    data_root_dir: /root/autodl-tmp/data/mid/stage2/
+    data_file_path: 
+    - clip_val.csv
+    processor_ids:
+    - IdProcessor
+    - MidProcessor
+  # - dataset_type: inference
+  #   data_root_dir: /root/autodl-tmp/data/mid
+  #   data_file_path: 
+  #   - preliminary_b_test.csv
+  #   processor_ids:
+  #   - IdProcessor
+  #   - MidProcessor
+
+model:
+  config:
+    auto_net:
+      auto_net_path: /root/autodl-tmp/pretrain_bart
+
+run_param:
+  resume_file: /root/autodl-tmp/save/hnu-nlp/mid/base_large/stage2/add/model/epoch_best_21818.ckpt
