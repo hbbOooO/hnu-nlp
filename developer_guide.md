@@ -54,5 +54,20 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 | run  | &#10008; |
 | 情感分类  | &#10008; |
 
+# Git教程
 
+```git
+# 拉取远程的dev，并合并到本地的dev分支
+git pull origin dev
+# 创建新的分支
+git checkout -b feature-xxx
+# 编写代码
+# 暂存
+git add .
+# 本地提交
+git commit -m "commit messages"
+# 推送到远程的 feature-xxx 分支
+git push origin feature-xxx
+# 发起PR请求
+```
 
