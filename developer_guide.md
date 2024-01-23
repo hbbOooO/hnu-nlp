@@ -57,20 +57,66 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 | run  | &#10008; |
 | 情感分类  | &#10008; |
 
-# Git教程
+# 开发流程
 
-```git
-# 拉取远程的dev，并合并到本地的dev分支
-git pull origin dev
-# 创建新的分支
-git checkout -b feature-xxx
-# 编写代码
-# 暂存
-git add .
-# 本地提交
-git commit -m "commit messages"
-# 推送到远程的 feature-xxx 分支
-git push origin feature-xxx
-# 发起PR请求
+1. 准备最新的dev分支
+
+若没有clone过本项目，则执行下面语句：
 ```
+git clone --branch dev
+```
+
+若已经clone过dev分支，则执行下面的语句，从远程分支中拉取最新的dev分支，并更新本地dev分支：
+```
+git checkout dev
+git pull origin dev
+```
+
+2. 创建新的分支，名字自定义，能表示自己这个分支里面做的主要的改动。比如，这里命名为`feature-A`
+```
+git checkout -b feature -A
+```
+
+3. 根据远程仓库中的reference分支中对应的py文件，美化代码，增加注释。
+
+4. 暂存代码。这个命令可以多次执行，如果代码没有暂存时切换分支，那么已经做的改动就会丢失。
+```
+git add .                   # "." 表示所有的代码
+```
+
+5. 在本地提交一次代码。本地也可以提交多次。
+```
+git commit -m "B"           # B 表示提交时的信息，用来说明这次提交的内容
+```
+
+6. 当本地修改好之后，将本地分支推送到远程仓库中。
+```
+git push origin feature-A   # 这里的"feature-A"与之前的要保持一致
+```
+
+7. 发起一次PR请求，步骤如下：
+
+![alt 属性文本](assets/PR_1.png)
+![alt 属性文本](assets/PR_2.png)
+![alt 属性文本](assets/PR_3.png)
+
+①点击"Pull Request"
+
+②点击"New pull request"
+
+③选择你的分支Merge到Dev分支
+
+④点击"Create pull request"
+
+⑤输入PR标题
+
+⑥输入PR的描述，主要阐述一下PR改动的主要内容
+
+⑦添加其他3个人为Viewer
+
+⑧点击"Create pull request"
+
+# 评审教程
+
+待定。。。
 
