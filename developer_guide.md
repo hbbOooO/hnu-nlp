@@ -74,7 +74,7 @@ git pull origin dev
 
 2. 创建新的分支，名字自定义，能表示自己这个分支里面做的主要的改动。比如，这里命名为`feature-A`
 ```
-git checkout -b feature -A
+git checkout -b feature-A
 ```
 
 3. 根据远程仓库中的reference分支中对应的py文件，美化代码，增加注释。
