@@ -63,7 +63,7 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 
 若没有clone过本项目，则执行下面语句：
 ```
-git clone --branch dev
+git clone https://github.com/hbbOooO/hnu-nlp.git --branch dev
 ```
 
 若已经clone过dev分支，则执行下面的语句，从远程分支中拉取最新的dev分支，并更新本地dev分支：
