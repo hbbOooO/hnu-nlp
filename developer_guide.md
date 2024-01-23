@@ -118,5 +118,5 @@ git push origin feature-A   # 这里的"feature-A"与之前的要保持一致
 
 # 评审教程
 
-待定。。。
+等待完成。。。
 
