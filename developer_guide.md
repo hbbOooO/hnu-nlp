@@ -26,7 +26,7 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 **减少隐式参数调用**。以base_dataset.py为例。_read()方法需要路径，使用self.data_paths可读性不高，需要将data_paths作为参数输入，增加可读性。
 
 美化的路线如下：
-1. 基本数据集、基本模型、模块、基本处理器、损失函数、评价指标、优化器、日志、计时器、检查点等其他运行trainer所必须的子功能；
+1. 基本数据集(`common/datasets/base_dataset.py`)、基本模型(`commom/models/base_model.py`, `common/classification_model.py`, `common/generation_model.py`)、模块(`common/module/auto_net.py`)、基本处理器(`common/processors/base_processor.py`, `common/processors/test_processor.py`)、损失函数(`common/losses.py`)、评价指标(`common/meters.py`)、优化器(`common/optimizer.py`)、日志(`common/logger.py`)、计时器(`common/timer.py`)、检查点(`common/checkpoint.py`)、YML读取器(`common/yml_loader.py`)、设置覆盖(`config_overwrite.py`)、collate函数复写(`collate.py`)等其他运行trainer所必须的子功能；
 2. 美化trainer与run.py；
 3. 以情感分类任务为例，在具体任务上运行并调试成功；
 
@@ -40,7 +40,7 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 
 |  内容   | 完成时间  |
 |  ----  | ----  |
-| 基本数据集  | &#10008; |
+| 基本数据集  | 2024/1/23 |
 | 基本模型  | &#10008; |
 | 模块  | &#10008; |
 | 基本处理器  | &#10008; |
@@ -50,6 +50,9 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 | 日志  | &#10008; |
 | 计时器  | &#10008; |
 | 检查点  | &#10008; |
+| YML读取器  | &#10008; |
+| 设置覆盖  | &#10008; |
+| collate函数复写  | &#10008; |
 | trainer  | &#10008; |
 | run  | &#10008; |
 | 情感分类  | &#10008; |
