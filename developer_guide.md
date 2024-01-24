@@ -15,7 +15,7 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 
 评审目的：一人编写代码，多人检查代码。避免代码中出现注释遗漏、拼写错误、类型错误；也有助于其他人理解代码。
 
-评审内容：代码风格上的建议、代码不清楚的地方、代码难懂的地方、代码拼写上的错误等。
+评审内容：代码不清楚或难懂的地方、逻辑错误、拼写错误、代码风格上的建议等。
 
 # 项目进度规划
 
@@ -38,24 +38,27 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 
 # 时间表
 
-|  内容   | 完成时间  |
-|  ----  | ----  |
-| 基本数据集  | 2024/1/23 |
-| 基本模型  | &#10008; |
-| 模块  | &#10008; |
-| 基本处理器  | &#10008; |
-| 损失函数  | &#10008; |
-| 评价指标  | &#10008; |
-| 优化器  | &#10008; |
-| 日志  | &#10008; |
-| 计时器  | &#10008; |
-| 检查点  | &#10008; |
-| YML读取器  | &#10008; |
-| 设置覆盖  | &#10008; |
-| collate函数复写  | &#10008; |
-| trainer  | &#10008; |
-| run  | &#10008; |
-| 情感分类  | &#10008; |
+|  内容   | 文件 | 完成时间  |
+|  ----  | ----| ----  |
+| 基本数据集  | common/datasets/base_dataset.py | 2024/1/23 |
+| 基本模型  | commom/models/base_model.py | &#10008; |
+|   | common/classification_model.py | &#10008; |
+|   | common/generation_model.py | &#10008; |
+| 模块  | common/module/auto_net.py | &#10008; |
+| 基本处理器  | common/processors/base_processor.py | &#10008; |
+|   | common/processors/test_processor.py | &#10008; |
+| 损失函数  | common/losses.py | &#10008; |
+| 评价指标  | common/meters.py | &#10008; |
+| 优化器  | common/optimizer.py | &#10008; |
+| 日志  | common/logger.py | &#10008; |
+| 计时器  | common/timer.py | &#10008; |
+| 检查点  | common/checkpoint.py | &#10008; |
+| YML读取器  | common/yml_loader.py | &#10008; |
+| 设置覆盖  | config_overwrite.py | &#10008; |
+| collate函数复写  | collate.py | &#10008; |
+| trainer  | common/trainer.py | &#10008; |
+| run  | run.py | &#10008; |
+| 情感分类  |  | &#10008; |
 
 # 开发流程
 
@@ -118,5 +121,22 @@ git push origin feature-A   # 这里的"feature-A"与之前的要保持一致
 
 # 评审教程
 
-等待完成。。。
+评审的流程如下：
+
+![alt 属性文本](assets/review_1.png)
+![alt 属性文本](assets/review_2.png)
+![alt 属性文本](assets/review_3.png)
+![alt 属性文本](assets/review_4.png)
+
+①在其他用户发起一个新的PR请求之后，可以点击"Add your review"按钮，如果没有这个按钮，可以点击下面"File changed"标签进入下一步。
+
+②鼠标悬停在添加评论的行前，出现蓝色➕后，点击添加评论。
+
+③输入完评论文本后，点击下方"Start review"按钮。
+
+④等所有的代码全部评论完后，点击"Finish your review"按钮。
+
+⑤若添加了评论，则可以点击"Request changes"然后点击"Submit review"。若没有添加评论，则点击"Approve"后，点击"Submit review"。
+
+
 
