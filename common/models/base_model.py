@@ -6,3 +6,4 @@ class BaseModel:
         print("base model")
         print(123)
         print(345)
+        print(333)
