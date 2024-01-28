@@ -12,7 +12,7 @@ class YmlLoader:
         self.yml_path = config['yml_path']
         # self.default_yml_path = 'common/configs/default.yml'
 
-    def __call__(self) -> Dict:
+    def __call__(self) -> Dict[str, Any] / List[str]:
         """
         特殊方法，可以像函数一样调用自己 用于加载YAML文件并返回解析后的配置字典
         :return: Dict 解析后的配置字典
@@ -20,7 +20,7 @@ class YmlLoader:
         config = self._load_yml(self.yml_path)
         return config
 
-    def _load_yml(self, path: str) -> Dict:
+    def _load_yml(self, path: str) -> Dict[str, Any] / List[str]:
         """
         加载YAML文件并返回解析后的配置字典。
         :param path: str YAML文件路径
