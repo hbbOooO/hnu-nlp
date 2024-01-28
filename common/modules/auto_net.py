@@ -102,7 +102,7 @@ class AutoNetForSequenceClassification(nn.Module):
         self.auto_net = AutoModelForSequenceClassification.from_pretrained(config['auto_net_path'],
                                                                            config=self.auto_net_config)
 
-    def forward(self, *args, **kwargs) -> None:
+    def forward(self, *args, **kwargs) -> Tensor:
         """
         前向传播
         :param args: 接受任意数量的位置参数
