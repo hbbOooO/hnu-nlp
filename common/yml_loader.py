@@ -4,7 +4,7 @@ import yaml
 
 
 class YmlLoader:
-    def __init__(self, config: List[str]/Dict[str, Any]) -> None:
+    def __init__(self, config: List[str] / Dict[str, Any]) -> None:
         """
         yml加载器初始化
         :param config:List[str]/Dict[str, Any] 配置字典
@@ -47,7 +47,7 @@ class YmlLoader:
             # self.update_config(default_config, config)
             return config
 
-    def update_config(self, load_ymk_config: Dict[str,Any] / List[str], config: Dict / List):
+    def update_config(self, load_ymk_config: Dict[str, Any] / List[str], config: Dict[str, Any] / List[str]):
         """
         更新配置字典。递归地将config字典中的内容更新到load_yml_config字典中。
         :param load_ymk_config: Dict/List 需要更新的配置字典
