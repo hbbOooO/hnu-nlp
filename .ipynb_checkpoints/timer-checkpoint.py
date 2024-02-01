@@ -12,7 +12,7 @@ class Timer:
     start_time = None
 
     @classmethod
-    def set_up(cls, timer_type='all') -> None:
+    def set_up(cls, timer_type: str = 'all') -> None:
         """建立计时器。
 
         Args:
@@ -29,7 +29,7 @@ class Timer:
         cls.start_time = time.time()
 
     @classmethod
-    def calculate_remain(cls, spend_epoch, spend_iteration, max_epoch, max_iteration, resume_epoch=None) -> str:
+    def calculate_remain(cls, spend_epoch: int, spend_iteration: int, max_epoch: int, max_iteration: int, resume_epoch: int = None) -> str:
         """计算剩余时间。
 
         Args:
@@ -73,7 +73,7 @@ class Timer:
 
 
     @classmethod
-    def time_transform(cls, time) -> str:
+    def time_transform(cls, time: float) -> str:
         """将时间转换为格式化字符串。
 
         Args:
