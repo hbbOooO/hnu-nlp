@@ -44,14 +44,14 @@ reference分支：参考代码，这个是之前开发的代码，仅供参考�
 | 基本模型  | commom/models/base_model.py | &#10008; |
 |   | common/classification_model.py | &#10008; |
 |   | common/generation_model.py | &#10008; |
-| 模块  | common/module/auto_net.py | &#10008; |
+| 模块  | common/module/auto_net.py | 2024/1/29 |
 | 基本处理器  | common/processors/base_processor.py | &#10008; |
 |   | common/processors/test_processor.py | &#10008; |
-| 损失函数  | common/losses.py | &#10008; |
+| 损失函数  | common/losses.py | 2024/2/1 |
 | 评价指标  | common/meters.py | &#10008; |
 | 优化器  | common/optimizer.py | &#10008; |
 | 日志  | common/logger.py | &#10008; |
-| 计时器  | common/timer.py | &#10008; |
+| 计时器  | common/timer.py | 2024/2/1 |
 | 检查点  | common/checkpoint.py | &#10008; |
 | YML读取器  | common/yml_loader.py | &#10008; |
 | 设置覆盖  | config_overwrite.py | &#10008; |
