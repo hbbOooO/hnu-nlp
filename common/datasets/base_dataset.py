@@ -83,7 +83,7 @@ class BaseDataset(Dataset):
         """
         return len(self.data)
     
-    def evaluate(self, prediction: Dict[str, Any]) -> Dict(str, Any):
+    def evaluate(self, prediction: Dict[str, Any]) -> Dict[str, Any]:
         """评估预测的结果
 
         Args:
